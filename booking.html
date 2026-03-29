@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gymnatorium Booking System</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="logo.png">
 </head>
 
 <body>
@@ -61,6 +62,14 @@
                     <label>Check-Out Date</label>
                     <input type="date" id="checkOut" required>
 
+                    <div id="timeFields" style="display: none;">
+                        <label>Time In</label>
+                        <input type="time" id="timeIn">
+
+                        <label>Time Out</label>
+                        <input type="time" id="timeOut">
+                    </div>
+
                     <select id="guests" required>
                         <option value="">Number of Guests</option>
                         <option value="10">10 Guests</option>
@@ -76,12 +85,35 @@
 
                     <button type="submit" class="btn">Book Now</button>
                 </form>
+
+                <!-- Booking Summary -->
+                <div id="bookingSummary" style="margin-top: var(--spacing-xl); padding-top: var(--spacing-lg); border-top: 2px solid var(--border); display: none;">
+                    <h4 style="margin-bottom: var(--spacing-md); color: var(--primary); font-size: 18px;">📋 Booking Summary</h4>
+                    <div>
+                        <div style="background: var(--white); padding: var(--spacing-lg); border-radius: var(--border-radius); border-left: 4px solid rgba(44, 62, 80, 0.3); text-align: center;">
+                            <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 8px; letter-spacing: 0.5px;">Duration</div>
+                            <div style="font-size: 28px; font-weight: 700; color: var(--primary);" id="summaryDuration">—</div>
+                        </div>
+                        <div style="background: var(--white); padding: var(--spacing-lg); border-radius: var(--border-radius); border-left: 4px solid rgba(231, 76, 60, 0.5); text-align: center;">
+                            <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 8px; letter-spacing: 0.5px;">Guests</div>
+                            <div style="font-size: 28px; font-weight: 700; color: var(--accent);" id="summaryGuests">—</div>
+                        </div>
+                        <div style="background: var(--white); padding: var(--spacing-lg); border-radius: var(--border-radius); border-left: 4px solid rgba(39, 174, 96, 0.3); text-align: center;">
+                            <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 8px; letter-spacing: 0.5px;">Days</div>
+                            <div style="font-size: 28px; font-weight: 700; color: var(--primary);" id="summaryDays">—</div>
+                        </div>
+                        <div style="background: var(--white); padding: var(--spacing-lg); border-radius: var(--border-radius); border-left: 4px solid var(--success); text-align: center;">
+                            <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 8px; letter-spacing: 0.5px;">Status</div>
+                            <div style="font-size: 28px; font-weight: 700; color: var(--success);" id="summaryStatus">✓ Ready</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- ========== FEATURES SECTION ========== -->
         <section id="services" class="section">
-            <h2 class="text-center mb-xl">Why Choose Us?</h2>
+            <h2 class="text-center mb-xl">Our Premium Services</h2>
             <div class="grid-3">
                 <div class="feature-card">
                     <div class="feature-icon">🏋️</div>
@@ -98,6 +130,21 @@
                     <h4>Flexible Capacity</h4>
                     <p>Host events with flexible capacity options from 10 to 90 guests. Perfect for any occasion.</p>
                 </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎵</div>
+                    <h4>Sound & Lighting</h4>
+                    <p>Professional audio and lighting systems to enhance the ambiance and entertainment quality of your event.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🍽️</div>
+                    <h4>Catering Available</h4>
+                    <p>Partner with our trusted catering services or bring your own. Fully equipped kitchen facilities available.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚗</div>
+                    <h4>Ample Parking</h4>
+                    <p>Spacious parking area with dedicated guest parking. Secured and well-lit facility for your peace of mind.</p>
+                </div>
             </div>
         </section>
 
@@ -107,6 +154,104 @@
             <div class="card">
                 <p>CTU Daanbantayan Kalambuan Gymnatorium is a premier event venue designed to provide the best experience for your special occasions. With modern infrastructure, professional staff, and excellent service, we are committed to making your event unforgettable.</p>
                 <p>Our facility features spacious halls, state-of-the-art equipment, air conditioning, and ample parking. We cater to weddings, birthday parties, graduations, corporate events, and more.</p>
+            </div>
+        </section>
+
+        <!-- ========== GALLERY SECTION ========== -->
+        <section id="gallery" class="section">
+            <h2 class="text-center mb-xl">Our Gallery</h2>
+            <p class="text-center" style="margin-bottom: var(--spacing-xl); color: var(--text-muted); font-size: 16px;">Explore our stunning venue and past successful events</p>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <div class="gallery-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div class="gallery-overlay">
+                            <span>Wedding Reception</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <div class="gallery-overlay">
+                            <span>Birthday Party</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <div class="gallery-overlay">
+                            <span>Graduation Ceremony</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <div class="gallery-overlay">
+                            <span>Corporate Events</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <div class="gallery-overlay">
+                            <span>Main Gymnasium</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                        <div class="gallery-overlay">
+                            <span>Venue Interior</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== CONTACT SECTION ========== -->
+        <section id="contact" class="section">
+            <h2 class="text-center mb-xl">Get In Touch</h2>
+            <p class="text-center" style="margin-bottom: var(--spacing-xl); color: var(--text-muted); font-size: 16px;">Have questions? We'd love to hear from you. Contact us today!</p>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <div class="contact-icon">📍</div>
+                        <h4>Location</h4>
+                        <p>CTU Daanbantayan Kalambuan<br>Daanbantayan, Cebu, Philippines</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">📞</div>
+                        <h4>Phone</h4>
+                        <p>+63 (32) 5678-9012<br>+63 917 123 4567</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">✉️</div>
+                        <h4>Email</h4>
+                        <p>info@gymnarium.edu.ph<br>bookings@gymnarium.edu.ph</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">🕐</div>
+                        <h4>Business Hours</h4>
+                        <p>Monday - Friday: 8:00 AM - 6:00 PM<br>Saturday - Sunday: 8:00 AM - 8:00 PM</p>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper">
+                    <form id="contactForm" class="form-container">
+                        <h3>Send Us a Message</h3>
+                        <input type="text" id="contactName" placeholder="Your Name" required>
+                        <input type="email" id="contactEmail" placeholder="Your Email" required>
+                        <input type="tel" id="contactPhone" placeholder="Your Phone Number" required>
+                        <select id="inquiryType" required>
+                            <option value="">Type of Inquiry</option>
+                            <option value="Booking">Booking Information</option>
+                            <option value="Pricing">Pricing & Rates</option>
+                            <option value="Facilities">Facilities Information</option>
+                            <option value="Catering">Catering Services</option>
+                            <option value="Other">Other Inquiry</option>
+                        </select>
+                        <textarea id="contactMessage" placeholder="Your Message" rows="5" required></textarea>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
             </div>
         </section>
 
@@ -120,6 +265,86 @@
 
     <script src="script.js"></script>
     <script>
+        // Update booking summary with current form values
+        function updateBookingSummary() {
+            const checkIn = document.getElementById("checkIn").value;
+            const checkOut = document.getElementById("checkOut").value;
+            const guests = document.getElementById("guests").value;
+            const timeIn = document.getElementById("timeIn").value;
+            const timeOut = document.getElementById("timeOut").value;
+            const summarySection = document.getElementById("bookingSummary");
+
+            if (!checkIn || !checkOut || !guests) {
+                summarySection.style.display = "none";
+                return;
+            }
+
+            summarySection.style.display = "block";
+
+            // Calculate days
+            const checkInDate = new Date(checkIn);
+            const checkOutDate = new Date(checkOut);
+            let days = (checkOutDate - checkInDate) / (1000 * 60 * 60 * 24);
+            days = Math.ceil(days) || 1;
+
+            // Calculate duration
+            let durationText = `${days} day${days > 1 ? 's' : ''}`;
+            
+            if (days === 1 && timeIn && timeOut) {
+                const [inHours, inMinutes] = timeIn.split(':').map(Number);
+                const [outHours, outMinutes] = timeOut.split(':').map(Number);
+                
+                const inTotalMinutes = inHours * 60 + inMinutes;
+                const outTotalMinutes = outHours * 60 + outMinutes;
+                
+                let diffMinutes = outTotalMinutes - inTotalMinutes;
+                
+                if (diffMinutes < 0) {
+                    diffMinutes += 24 * 60;
+                }
+                
+                const hours = Math.floor(diffMinutes / 60);
+                const minutes = diffMinutes % 60;
+                
+                durationText = minutes > 0 ? `${hours}h ${minutes}m` : `${hours}h`;
+            }
+
+            // Update summary display
+            document.getElementById("summaryDuration").textContent = durationText;
+            document.getElementById("summaryGuests").textContent = guests + " Guest" + (guests > 10 ? "s" : "");
+            document.getElementById("summaryDays").textContent = `${days} Day${days > 1 ? 's' : ''}`;
+        }
+
+        // Show/hide time fields based on dates
+        function toggleTimeFields() {
+            const checkIn = new Date(document.getElementById("checkIn").value);
+            const checkOut = new Date(document.getElementById("checkOut").value);
+            const timeFields = document.getElementById("timeFields");
+            const timeInInput = document.getElementById("timeIn");
+            const timeOutInput = document.getElementById("timeOut");
+            
+            if (checkIn && checkOut && checkIn.toDateString() === checkOut.toDateString()) {
+                timeFields.style.display = "block";
+                timeInInput.required = true;
+                timeOutInput.required = true;
+            } else {
+                timeFields.style.display = "none";
+                timeInInput.required = false;
+                timeOutInput.required = false;
+                timeInInput.value = "";
+                timeOutInput.value = "";
+            }
+            
+            updateBookingSummary();
+        }
+
+        // Add event listeners for date fields
+        document.getElementById("checkIn").addEventListener("change", toggleTimeFields);
+        document.getElementById("checkOut").addEventListener("change", toggleTimeFields);
+        document.getElementById("guests").addEventListener("change", updateBookingSummary);
+        document.getElementById("timeIn").addEventListener("change", updateBookingSummary);
+        document.getElementById("timeOut").addEventListener("change", updateBookingSummary);
+
         // Handle form submission for booking
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -132,26 +357,56 @@
             let checkIn = document.getElementById("checkIn").value;
             let checkOut = document.getElementById("checkOut").value;
             let guests = document.getElementById("guests").value;
+            let timeIn = document.getElementById("timeIn").value;
+            let timeOut = document.getElementById("timeOut").value;
 
             if (!firstName || !lastName || !email || !phone || !eventType || !checkIn || !checkOut || !guests) {
                 alert("⚠️ Please fill all fields!");
                 return;
             }
 
-            let days = (new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24);
+            // Check if same day by comparing date strings
+            const isSameDay = checkIn === checkOut;
 
-            if (days <= 0) {
-                alert("⚠️ Check-out date must be after check-in date!");
-                return;
+            if (isSameDay) {
+                // Same day booking - require time fields
+                if (!timeIn || !timeOut) {
+                    alert("⚠️ Please fill in both Time In and Time Out for same-day bookings!");
+                    return;
+                }
+            } else {
+                // Multi-day booking - allow same date or later dates
+                let checkInDate = new Date(checkIn);
+                let checkOutDate = new Date(checkOut);
+                let days = (checkOutDate - checkInDate) / (1000 * 60 * 60 * 24);
+
+                // Allow any checkout date on or after checkin date
+                if (checkOutDate < checkInDate) {
+                    alert("⚠️ Check-out date must be on or after check-in date!");
+                    return;
+                }
             }
+
+            let checkInDate = new Date(checkIn);
+            let checkOutDate = new Date(checkOut);
+            let days = (checkOutDate - checkInDate) / (1000 * 60 * 60 * 24);
 
             let booking = {
                 name: firstName + " " + lastName,
                 email: email,
+                phone: phone,
                 event: eventType,
                 guests: guests,
-                days: Math.ceil(days)
+                days: Math.ceil(days) || 1,
+                checkIn: checkIn,
+                checkOut: checkOut
             };
+
+            // Add times only for same-day bookings
+            if (days === 0) {
+                booking.timeIn = timeIn;
+                booking.timeOut = timeOut;
+            }
 
             let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
             bookings.push(booking);
@@ -168,6 +423,47 @@
             document.getElementById("checkIn").value = "";
             document.getElementById("checkOut").value = "";
             document.getElementById("guests").value = "";
+            document.getElementById("timeIn").value = "";
+            document.getElementById("timeOut").value = "";
+            document.getElementById("timeFields").style.display = "none";
+        });
+
+        // Handle contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let contactName = document.getElementById("contactName").value;
+            let contactEmail = document.getElementById("contactEmail").value;
+            let contactPhone = document.getElementById("contactPhone").value;
+            let inquiryType = document.getElementById("inquiryType").value;
+            let contactMessage = document.getElementById("contactMessage").value;
+
+            if (!contactName || !contactEmail || !contactPhone || !inquiryType || !contactMessage) {
+                alert("⚠️ Please fill all fields!");
+                return;
+            }
+
+            let inquiry = {
+                name: contactName,
+                email: contactEmail,
+                phone: contactPhone,
+                type: inquiryType,
+                message: contactMessage,
+                date: new Date().toLocaleDateString()
+            };
+
+            let inquiries = JSON.parse(localStorage.getItem("inquiries")) || [];
+            inquiries.push(inquiry);
+            localStorage.setItem("inquiries", JSON.stringify(inquiries));
+
+            alert("✅ Message sent successfully! We'll get back to you soon.");
+            
+            // Clear form
+            document.getElementById("contactName").value = "";
+            document.getElementById("contactEmail").value = "";
+            document.getElementById("contactPhone").value = "";
+            document.getElementById("inquiryType").value = "";
+            document.getElementById("contactMessage").value = "";
         });
     </script>
 </body>

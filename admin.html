@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Gymnatorium Booking</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="logo.png">
 </head>
 
 <body>
@@ -48,9 +49,11 @@
                         <th>Event</th>
                         <th>Check-In</th>
                         <th>Check-Out</th>
+                        <th>Time In</th>
+                        <th>Time Out</th>
+                        <th>Duration</th>
                         <th>Guests</th>
                         <th>Days</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -61,10 +64,60 @@
             </div>
         </div>
 
+        <!-- ========== DELETE TABLE SECTION ========== -->
+        <div class="delete-table">
+            <div class="delete-table-title">Delete Reservations</div>
+            <table id="deleteTable">
+                <thead>
+                    <tr>
+                        <th>Reservation Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- ========== INQUIRIES TABLE SECTION ========== -->
+        <div class="table-container" style="margin-top: var(--spacing-xl);">
+            <div class="table-title">Contact Form Inquiries</div>
+            <table id="inquiriesTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Inquiry Type</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="empty-state" id="emptyInquiriesState" style="display: none;">
+                <div class="empty-state-icon">💌</div>
+                <p>No inquiries yet</p>
+            </div>
+        </div>
+
     </div>
 
     <script src="script.js"></script>
     <script>
+        /**
+         * Convert 24-hour time format to 12-hour AM/PM format
+         */
+        function convertTo12Hour(time24) {
+            if (!time24) return "—";
+            const [hours24, minutes] = time24.split(':').map(Number);
+            
+            const hours12 = hours24 % 12 || 12;
+            const ampm = hours24 >= 12 ? 'PM' : 'AM';
+            
+            return `${hours12.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+        }
+
         /**
          * Update statistics dashboard with booking data
          */
@@ -96,8 +149,139 @@
             emptyStateEl.style.display = bookings.length === 0 ? "block" : "none";
         }
 
-        // Initialize stats on page load
+        /**
+         * Populate reservations table with booking data
+         */
+        function populateTable() {
+            const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+            const tableBody = document.querySelector("#bookingTable tbody");
+            
+            tableBody.innerHTML = "";
+            
+            bookings.forEach((booking, index) => {
+                const row = document.createElement("tr");
+                
+                // Format dates for display
+                const checkInDate = new Date(booking.checkIn).toLocaleDateString();
+                const checkOutDate = new Date(booking.checkOut).toLocaleDateString();
+                
+                // Determine if same-day booking and calculate duration
+                const isSameDay = booking.days === 1 && booking.timeIn && booking.timeOut;
+                const timeInDisplay = isSameDay ? convertTo12Hour(booking.timeIn) : "—";
+                const timeOutDisplay = isSameDay ? convertTo12Hour(booking.timeOut) : "—";
+                
+                let durationDisplay = "—";
+                if (isSameDay && booking.timeIn && booking.timeOut) {
+                    const [inHours, inMinutes] = booking.timeIn.split(':').map(Number);
+                    const [outHours, outMinutes] = booking.timeOut.split(':').map(Number);
+                    
+                    const inTotalMinutes = inHours * 60 + inMinutes;
+                    const outTotalMinutes = outHours * 60 + outMinutes;
+                    
+                    let diffMinutes = outTotalMinutes - inTotalMinutes;
+                    
+                    // Handle case where checkout is next day
+                    if (diffMinutes < 0) {
+                        diffMinutes += 24 * 60;
+                    }
+                    
+                    const hours = Math.floor(diffMinutes / 60);
+                    const minutes = diffMinutes % 60;
+                    
+                    durationDisplay = minutes > 0 ? `${hours}h ${minutes}m` : `${hours}h`;
+                }
+                
+                row.innerHTML = `
+                    <td>${booking.name}</td>
+                    <td>${booking.email}</td>
+                    <td>${booking.phone || "N/A"}</td>
+                    <td>${booking.event}</td>
+                    <td>${checkInDate}</td>
+                    <td>${checkOutDate}</td>
+                    <td>${timeInDisplay}</td>
+                    <td>${timeOutDisplay}</td>
+                    <td><strong>${durationDisplay}</strong></td>
+                    <td style="font-weight: 700; text-align: center;">${booking.guests}</td>
+                    <td style="font-weight: 700; text-align: center;">${booking.days}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+
+            // Populate delete table
+            const deleteTableBody = document.querySelector("#deleteTable tbody");
+            deleteTableBody.innerHTML = "";
+            
+            bookings.forEach((booking, index) => {
+                const deleteRow = document.createElement("tr");
+                deleteRow.innerHTML = `
+                    <td>${booking.name}</td>
+                    <td><button class="btn btn-small btn-danger" onclick="deleteBooking(${index})">Delete</button></td>
+                `;
+                
+                deleteTableBody.appendChild(deleteRow);
+            });
+        }
+
+        /**
+         * Delete a booking from localStorage
+         */
+        function deleteBooking(index) {
+            if (confirm("Are you sure you want to delete this booking?")) {
+                let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+                bookings.splice(index, 1);
+                localStorage.setItem("bookings", JSON.stringify(bookings));
+                updateStats();
+                populateTable();
+            }
+        }
+
+        /**
+         * Populate inquiries table with contact form data
+         */
+        function populateInquiriesTable() {
+            const inquiries = JSON.parse(localStorage.getItem("inquiries")) || [];
+            const tableBody = document.querySelector("#inquiriesTable tbody");
+            
+            tableBody.innerHTML = "";
+            
+            inquiries.forEach((inquiry, index) => {
+                const row = document.createElement("tr");
+                
+                row.innerHTML = `
+                    <td>${inquiry.name}</td>
+                    <td>${inquiry.email}</td>
+                    <td>${inquiry.phone}</td>
+                    <td><span style="background: var(--bg-light); padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">${inquiry.type}</span></td>
+                    <td><span title="${inquiry.message}">${inquiry.message.substring(0, 50)}${inquiry.message.length > 50 ? '...' : ''}</span></td>
+                    <td>${inquiry.date}</td>
+                    <td><button class="btn btn-small btn-danger" onclick="deleteInquiry(${index})">Delete</button></td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Show/hide empty state
+            const emptyStateEl = document.getElementById("emptyInquiriesState");
+            emptyStateEl.style.display = inquiries.length === 0 ? "block" : "none";
+        }
+
+        /**
+         * Delete an inquiry from localStorage
+         */
+        function deleteInquiry(index) {
+            if (confirm("Are you sure you want to delete this inquiry?")) {
+                let inquiries = JSON.parse(localStorage.getItem("inquiries")) || [];
+                inquiries.splice(index, 1);
+                localStorage.setItem("inquiries", JSON.stringify(inquiries));
+                populateInquiriesTable();
+            }
+        }
+
+        // Initialize stats and table on page load
         updateStats();
+        populateTable();
+        populateInquiriesTable();
     </script>
 </body>
 
