@@ -98,6 +98,8 @@ header {
     top: 0;
     z-index: 1000;
     box-shadow: var(--shadow-md);
+    width: 100%;
+    left: 0;
 }
 
 .header-content {
@@ -520,6 +522,11 @@ label {
     overflow-x: auto !important;
     overflow-y: visible !important;
     width: 100%;
+    max-width: 100%;
+}
+
+.table-scroll {
+    min-width: max-content;
 }
 
 .table-title {
@@ -590,7 +597,18 @@ td:last-child {
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-md);
     margin-top: var(--spacing-lg);
-    overflow-x: auto;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+}
+
+.delete-table .table-scroll {
+    min-width: 0;
+}
+
+.delete-table table {
+    width: auto;
+    min-width: 0;
 }
 
 .delete-table-title {
